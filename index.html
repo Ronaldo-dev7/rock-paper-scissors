@@ -3,19 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="app.css" />
     <title>Rock-Paper-Scissors</title>
   </head>
   <body>
-    <h1>Rock-Paper-Scissors</h1>
-    <!-- Rock -->
-    <button onclick="playGame('rock')">Rock</button>
-    <!-- Paper -->
-    <button onclick="playGame('paper')">Paper</button>
-    <!-- Scissors -->
-    <button onclick="playGame('scissors')">Scissors</button>
+    <h1 class="h1-element">Rock-Paper-Scissors</h1>
+    <div class="button">
+      <!-- Rock -->
+      <button class="move-button" onclick="playGame('rock')">Rock</button>
+      <!-- Paper -->
+      <button class="move-button" onclick="playGame('paper')">Paper</button>
+      <!-- Scissors -->
+      <button class="move-button" onclick="playGame('scissors')">
+        Scissors
+      </button>
+    </div>
+    <p class="js-result"></p>
+    <p class="js-move"></p>
     <p class="js-score"></p>
     <!-- Reset -->
     <button
+      class="btn"
       onclick="
         score.wins = 0;
         score.losses = 0;
@@ -32,16 +40,15 @@
         losses: 0,
         ties: 0,
       };
-      document.querySelector(".js-score").innerHTML =
-        `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
-      /*
+      updateScoreElement();
+
       if (!score) {
         score = {
           wins: 0,
           losses: 0,
           ties: 0,
         };
-      }*/
+      }
 
       function playGame(playerMove) {
         const computerMove = pickComputerMove();
@@ -82,13 +89,16 @@
         }
         localStorage.setItem("score", JSON.stringify(score));
 
+        updateScoreElement();
+        document.querySelector(".js-result").innerHTML = result;
+
+        document.querySelector(".js-move").innerHTML =
+          `You ${playerMove} - ${computerMove} Computer`;
+      }
+
+      function updateScoreElement() {
         document.querySelector(".js-score").innerHTML =
           `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
-
-        alert(
-          `You picked ${playerMove}. Computer picked ${computerMove}. ${result}
-      Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`,
-        );
       }
 
       function pickComputerMove() {
